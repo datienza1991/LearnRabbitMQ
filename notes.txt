@@ -1,0 +1,27 @@
+broker
+exchage
+queue
+producer
+
+RabbitMQ
+    - Message broker
+    - Async communication
+    - multiple producer
+    - multiple consumers
+
+Exchange
+    - brain of RabbitMQ
+    - works internally
+    - tight to many queue
+
+Queue
+    - tight to many exchage
+
+Every producer and consumer should open single tcp connection
+Connection
+    - could have multiple Channels
+
+Channels
+
+AMQP
+    - open standards
