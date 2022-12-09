@@ -13,11 +13,22 @@ channel.QueueDeclare(queue: "letterbox",
     exclusive: false,
     autoDelete: false,
     arguments: null);
+Random random = new();
+var messageId = 1;
 
-var message = "This is my first Message";
+while (true)
+{
+    var publishingTime = random.Next(1, 4);
 
-var encodedMessage = Encoding.UTF8.GetBytes(message);
+    var message = $"Sending MessageId:{messageId}";
 
-channel.BasicPublish("", "letterbox", null, encodedMessage);
+    var encodedMessage = Encoding.UTF8.GetBytes(message);
 
-Console.WriteLine($"Published message: { message }");
+    channel.BasicPublish("", "letterbox", null, encodedMessage);
+
+    Console.WriteLine($"Published message: {message}");
+
+    await Task.Delay(TimeSpan.FromSeconds(publishingTime));
+
+    messageId++;
+}
