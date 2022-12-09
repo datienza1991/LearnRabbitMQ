@@ -22,11 +22,11 @@ consumer.Received += (model, ea) =>
 {
     var body = ea.Body.ToArray();
     var message = Encoding.UTF8.GetString(body);
-    Console.WriteLine($"FirstConsumer - Message Recieved: {message}");
+    Console.WriteLine($"SecondConsumer - Message Recieved: {message}");
 };
 
 channel.BasicConsume(queue: queueName, autoAck: true, consumer: consumer);
 
-Console.WriteLine("First Consumer - Consuming");
+Console.WriteLine("Second Consumer - Consuming");
 
 Console.ReadKey();

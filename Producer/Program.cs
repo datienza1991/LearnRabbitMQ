@@ -8,16 +8,12 @@ using var connection = factory.CreateConnection();
 
 using var channel = connection.CreateModel();
 
-channel.QueueDeclare(queue: "letterbox",
-    durable: false,
-    exclusive: false,
-    autoDelete: false,
-    arguments: null);
+channel.ExchangeDeclare(exchange: "pubsub", type: ExchangeType.Fanout);
 
-var message = "This is my first Message";
+var message = "Hello I want to broadcast this message";
 
 var encodedMessage = Encoding.UTF8.GetBytes(message);
 
-channel.BasicPublish("", "letterbox", null, encodedMessage);
+channel.BasicPublish(exchange: "pubsub", "", null, encodedMessage);
 
-Console.WriteLine($"Published message: { message }");
+Console.WriteLine($"Published message: {message}");
