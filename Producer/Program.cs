@@ -8,16 +8,22 @@ using var connection = factory.CreateConnection();
 
 using var channel = connection.CreateModel();
 
-channel.QueueDeclare(queue: "letterbox",
-    durable: false,
-    exclusive: false,
-    autoDelete: false,
-    arguments: null);
+channel.ExchangeDeclare(exchange: "mytopicexchange", type: ExchangeType.Topic);
 
-var message = "This is my first Message";
+var userPaymentMessage = "A european user paid for something";
+// var message = "This message needs to be routed";
 
-var encodedMessage = Encoding.UTF8.GetBytes(message);
+var body = Encoding.UTF8.GetBytes(userPaymentMessage);
 
-channel.BasicPublish("", "letterbox", null, encodedMessage);
+channel.BasicPublish("mytopicexchange", "user.europe.payments", null, body);
 
-Console.WriteLine($"Published message: { message }");
+Console.WriteLine($"Published message: { userPaymentMessage }");
+
+var businessOrderMessage = "A european business ordered goods";
+// var message = "This message needs to be routed";
+
+var businessOrderBody = Encoding.UTF8.GetBytes(businessOrderMessage);
+
+channel.BasicPublish("mytopicexchange", "business.europe.order", null, businessOrderBody);
+
+Console.WriteLine($"Published message: { businessOrderMessage }");
